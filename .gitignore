@@ -1,0 +1,11 @@
+# intelij idea
+*.iml
+*.ipr
+*.iws
+.idea
+
+# osx craps
+*.DS_Store
+
+# java
+*.class
