@@ -10,6 +10,10 @@ public class ComplexNumber {
         this.imaginary = imaginary;
     }
 
+    public Double modulus() {
+        return Math.sqrt(Math.pow(real, 2) + Math.pow(imaginary, 2));
+    }
+
     public double getReal() {
         return real;
     }

@@ -10,36 +10,22 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 
-import signal.Signal;
-
 public class Plot extends ApplicationFrame {
 
-    private static final String X_AXIS_LABEL = "time";
-    private static final String Y_AXIS_LABEL = "amplitude";
     private static final Dimension DIMENSION = new Dimension(500, 270);
 
-    public Plot(final String title, final Signal simpleSignal) {
+    public Plot(final String title, final XYSeries points, final String axisX, final String axisY) {
         super(title);
-
-        final XYSeries points = createPoints(simpleSignal, title);
-        final JFreeChart chart = createChart(points, title);
+        final JFreeChart chart = createChart(points, title, axisX, axisY);
         createPanel(chart);
     }
 
-    private XYSeries createPoints(final Signal simpleSignal, final String title) {
-        final XYSeries points = new XYSeries(title);
-        simpleSignal.getPoints().forEach(point -> {
-            points.add(point.getX(), point.getY());
-        });
-        return points;
-    }
-
-    private JFreeChart createChart(final XYSeries points, final String title) {
+    private JFreeChart createChart(final XYSeries points, final String title, final String axisX, final String axisY) {
         final XYSeriesCollection pointsCollection = new XYSeriesCollection(points);
         return ChartFactory.createXYLineChart( //
                 title, //
-                X_AXIS_LABEL, //
-                Y_AXIS_LABEL, //
+                axisX, //
+                axisY, //
                 pointsCollection, //
                 PlotOrientation.VERTICAL, //
                 true, //

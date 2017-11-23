@@ -8,24 +8,24 @@ import complex.ComplexNumber;
 import signal.Point;
 import signal.Signal;
 
-public class DiscreteFourierTransformFactory {
+public class DFT {
 
-    public static DiscreteFourierTransform from(final Signal signal) {
+    public static FrequencyDomain calculate(final Signal signal) {
         final List<Double> timeDomain = signal.getPoints().stream() //
                 .map(Point::getY) //
                 .collect(Collectors.toList());
-        return from(timeDomain);
+
+        return calculate(timeDomain);
     }
 
-    public static DiscreteFourierTransform from(final List<Double> timeDomain) {
+    private static FrequencyDomain calculate(final List<Double> timeDomain) {
         final List<ComplexNumber> frequencyDomain = new ArrayList<>();
 
         for (int i = 0; i < timeDomain.size(); i++) {
             frequencyDomain.add(calculateIndex(i, timeDomain));
-            System.out.println(frequencyDomain.get(i).toString());
         }
 
-        return new DiscreteFourierTransform(frequencyDomain);
+        return new FrequencyDomain(frequencyDomain);
     }
 
     private static ComplexNumber calculateIndex(final int index, final List<Double> timeDomain) {
