@@ -2,19 +2,19 @@ package signal;
 
 public class Point {
 
-    private double x;
-    private double y;
+    private double time;
+    private double amplitude;
 
-    Point(final double x, final double y) {
-        this.x = x;
-        this.y = y;
+    Point(final double time, final double amplitude) {
+        this.time = time;
+        this.amplitude = amplitude;
     }
 
-    public double getX() {
-        return x;
+    public double getTime() {
+        return time;
     }
 
-    public double getY() {
-        return y;
+    public double getAmplitude() {
+        return amplitude;
     }
 }

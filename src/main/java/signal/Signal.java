@@ -11,8 +11,10 @@ import plot.Plot;
 
 public class Signal {
 
+    private static final double AM_FACTOR = 0.5d;
     private static final String AXIS_X = "Time [s]";
     private static final String AXIS_Y = "Amplitude";
+    //
     private final List<Point> points;
 
     protected Signal(final List<Point> points) {
@@ -31,7 +33,7 @@ public class Signal {
         return combineWith(simpleTone, multiplyPoints());
     }
 
-    private Signal combineWith(final Signal signalToCombine, final BiFunction<Point, Point, Point> operation) {
+    protected Signal combineWith(final Signal signalToCombine, final BiFunction<Point, Point, Point> operation) {
         final List<Point> addedPoints = new ArrayList<>();
         for (int i = 0; i < points.size(); i++) {
             addedPoints.add(operation.apply(points.get(i), signalToCombine.points.get(i)));
@@ -41,11 +43,11 @@ public class Signal {
     }
 
     private BiFunction<Point, Point, Point> addPoints() {
-        return (point1, point2) -> new Point(point1.getX(), point1.getY() + point2.getY());
+        return (point1, point2) -> new Point(point1.getTime(), point1.getAmplitude() + point2.getAmplitude());
     }
 
     private BiFunction<Point, Point, Point> multiplyPoints() {
-        return (point1, point2) -> new Point(point1.getX(), point1.getY() * point2.getY());
+        return (point1, point2) -> new Point(point1.getTime(), point1.getAmplitude() * point2.getAmplitude());
     }
 
     public void plot(final String title) {
@@ -58,8 +60,26 @@ public class Signal {
     private XYSeries createPlotPoints(final String title) {
         final XYSeries xySeries = new XYSeries(title);
         points.forEach(point -> {
-            xySeries.add(point.getX(), point.getY());
+            xySeries.add(point.getTime(), point.getAmplitude());
         });
         return xySeries;
+    }
+
+    public Signal modulateAmplitudeWith(final Signal signal) {
+        return combineWith(signal, amplitudeModulation());
+    }
+
+    private BiFunction<Point, Point, Point> amplitudeModulation() {
+
+        return (point1, point2) -> {
+            verifyAmplitudeModulationPrecondition(point2.getAmplitude());
+            return new Point(point1.getTime(), point1.getAmplitude() * (AM_FACTOR * point2.getAmplitude() + 1d));
+        };
+    }
+
+    private void verifyAmplitudeModulationPrecondition(final double amplitude) {
+        if (Math.abs(AM_FACTOR * amplitude) >= 1d) {
+            throw new IllegalStateException("aa");
+        }
     }
 }

@@ -12,7 +12,7 @@ public class DFT {
 
     public static FrequencyDomain calculate(final Signal signal) {
         final List<Double> timeDomain = signal.getPoints().stream() //
-                .map(Point::getY) //
+                .map(Point::getAmplitude) //
                 .collect(Collectors.toList());
 
         return calculate(timeDomain);
