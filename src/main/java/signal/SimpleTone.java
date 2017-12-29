@@ -28,4 +28,12 @@ public class SimpleTone extends Signal {
         return (point1, point2) -> new Point(point1.getTime(),
                 amplitude * Math.cos(pulsation * point1.getTime() + PM_FACTOR * point2.getAmplitude()));
     }
+
+    double getPulsation() {
+        return pulsation;
+    }
+
+    double getAmplitude() {
+        return amplitude;
+    }
 }

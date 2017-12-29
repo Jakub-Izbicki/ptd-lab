@@ -48,4 +48,22 @@ public class SignalFactory {
 
         return new Signal(signal);
     }
+
+    public static BinarySignal sampleBinary() {
+        final List<Point> bytes = new ArrayList<>();
+        final double byteLifetime = SIMULATION_TIME / 4d;
+        int multiplier = 0;
+        byte aByte = 1;
+
+        for (double time = 0d; time < SIMULATION_TIME; time += 1d / PROBING_FREQUENCY) {
+            if (time >= byteLifetime * multiplier) {
+                multiplier++;
+                aByte = (byte) (aByte == 0 ? 1 : 0);
+            }
+
+            bytes.add(new Point(time, aByte));
+        }
+
+        return new BinarySignal(bytes, byteLifetime);
+    }
 }
